@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,900&display=swap" rel="stylesheet">
+</head>
+<style>
+
+.node {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+h1{
+  font-family: "Roboto";
+  font-weight: "900";
+}
+</style>
+<body>
+  <!-- <h1>Stakeholder Mapping</h1> -->
+</body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+var x = 1000;
+var y = 500;
+// var w = window,
+//     d = document,
+//     e = d.documentElement,
+//     g = d.getElementsByTagName('body')[0],
+//     x = w.innerWidth || e.clientWidth || g.clientWidth,
+//     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+var dataset = {
+  nodes:[
+      {name:"Shift Leader", "group": 1},
+      {name:"Dispatcher", "group": 1},
+      {name:"Mechanics", "group": 1},
+      {name:"Drilling", "group": 1},
+      {name:"Blasting", "group": 1},
+      {name:"Loading", "group": 1},
+      {name:"Crushing", "group": 1},
+      {name:"Ore Storing", "group": 1},
+      {name:"Transport", "group": 1},
+      {name:"Logistics", "group": 1},
+      {name:"Road Worker", "group": 1},
+      {name:"Operator", "group": 1},
+      {name:"Truck Excavator", "group": 1},
+      {name:"Mine Manager", "group": 1},
+      {name:"Other Mines", "group": 2},
+      {name:"Boliden", "group": 2},
+      {name:"Investors", "group": 2},
+      {name:"Komatsu", "group": 3},
+      {name:"Competitors", "group": 3},
+      {name:"Client", "group": 4},
+      {name:"Consumer", "group": 4},
+      {name:"Government", "group": 5},
+      {name:"Municipality", "group": 5},
+      {name:"Work Union", "group": 1},
+      {name:"Environment", "group": 6}
+  ],
+  edges:[
+      {source: 0, target: 1, value: 1, color: "#FFCD05"},
+      {source: 0, target: 3, value: 1, color: "#FFCD05"},
+      {source: 0, target: 4, value: 1, color: "#FFCD05"},
+      {source: 0, target: 5, value: 1, color: "#FFCD05"},
+      {source: 0, target: 6, value: 1, color: "#FFCD05"},
+      {source: 0, target: 7, value: 1, color: "#FFCD05"},
+      {source: 0, target: 8, value: 1, color: "#FFCD05"},
+      {source: 0, target: 10, value: 1, color: "#FFCD05"},
+      {source: 0, target: 11, value: 1, color: "#FFCD05"},
+      {source: 0, target: 13, value: 3, color: "#FFCD05"},
+      {source: 1, target: 11, value: 3, color: "#FFCD05"},
+      {source: 2, target: 1, value: 1, color: "#FFCD05"},
+      {source: 2, target: 3, value: 1, color: "#FFCD05"},
+      {source: 2, target: 4, value: 1, color: "#FFCD05"},
+      {source: 2, target: 5, value: 1, color: "#FFCD05"},
+      {source: 2, target: 6, value: 1, color: "#FFCD05"},
+      {source: 2, target: 7, value: 1, color: "#FFCD05"},
+      {source: 2, target: 8, value: 1, color: "#FFCD05"},
+      {source: 2, target: 11, value: 1, color: "#FFCD05"},
+      {source: 14, target: 16, value: 1, color: "#FFCD05"},
+      {source: 8, target:9, value: 1, color: "#808285"},
+      {source: 9, target: 19, value: 1, color: "#808285"},
+      {source: 11, target: 12, value: 1, color: "#808285"},
+      {source: 1, target: 3, value: 1, color: "#808285"},
+      {source: 3, target: 4, value: 1, color: "#808285"},
+      {source: 4, target: 5, value: 1, color: "#808285"},
+      {source: 5, target: 6, value: 1, color: "#808285"},
+      {source: 6, target: 7, value: 1, color: "#808285"},
+      {source: 7, target: 8, value: 1, color: "#808285"},
+      {source: 14, target: 15, value: 1, color: "#FFCD05"},
+      {source: 15, target: 16, value: 1, color: "#808285"},
+      {source: 15, target: 17, value: 1, color: "#808285"},
+      {source: 15, target: 18, value: 1, color: "#F3796F"},
+      {source: 15, target: 19, value: 1, color: "#F3796F"},
+      {source: 15, target: 20, value: 1, color: "#F3796F"},
+      {source: 15, target: 22, value: 1, color: "#FFCD05"},
+      {source: 19, target: 20, value: 1, color: "#808285"},
+      {source: 14, target: 18, value: 1, color: "#808285"},
+      {source: 21, target: 22, value: 1, color: "#808285"},
+      {source: 23, target: 21, value: 1, color: "#808285"},
+      {source: 23, target: 22, value: 1, color: "#808285"},
+      {source: 19, target: 20, value: 1, color: "#808285"},
+      {source: 15, target: 23, value: 1, color: "#808285"},
+      {source: 15, target: 22, value: 1, color: "#808285"},
+      {source: 15, target: 21, value: 1, color: "#808285"},
+      {source: 24, target: 15, value: 1, color: "#808285"},
+      {source: 24, target: 21, value: 1, color: "#808285"}
+  ]
+};
+var force = d3.layout.force()
+            .nodes(dataset.nodes)
+            .links(dataset.edges)
+            .size([x, y])
+            .linkDistance([200])
+            .charge([-150])
+            .start();
+
+// green, blue, yellow, orange, red
+var color = [' #FFCD05', '#28286A', '#F3796F', '#F3796F', '#D1D3D4', '#73BF44'];
+
+var colors = d3.scale.ordinal()
+    .range(color);
+// var colors = d3.scale.category10();
+var svg = d3.select("body").append("svg")
+        .attr("width", x)
+        .attr("height", y)
+        .append("g");
+
+var edges = svg.selectAll("line")
+        .data(dataset.edges)
+        .enter()
+        .append("line")
+        .style("stroke", function(d) {return d.color; })
+        // .style("stroke", "#808285")
+        .style("stroke-width", function(d) {return d.value; });
+
+var nodes = svg.selectAll("circle")
+        .data(dataset.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .style("fill", function(d, i){
+          return colors(d.group);
+        })
+        .call(force.drag);
+
+var label = svg.selectAll(".mytext")
+        .data(dataset.nodes)
+        .enter()
+        .append("text")
+          .text(function (d) { return d.name; })
+          .style("text-anchor", "right")
+          .style("fill", "#555")
+          .style("font-family", "Roboto")
+          .style("font-size", 11);
+
+
+
+force.on("tick", function(){
+  edges.attr("x1", function(d){ return d.source.x; })
+     .attr("y1", function(d){ return d.source.y; })
+     .attr("x2", function(d){ return d.target.x; })
+     .attr("y2", function(d){ return d.target.y; });
+  nodes.attr("cx", function(d){ return d.x; })
+     .attr("cy", function(d){ return d.y; });
+  label.attr("x", function(d){ return d.x; })
+       .attr("y", function (d) {return d.y - 10; });
+
+
+});
+
+</script>

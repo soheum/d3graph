@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    {"id": "Shift Leader", "group": 1},
+    {"id": "Dispatcher", "group": 1},
+    {"id": "Mechanics", "group": 2},
+    {"id": "Drilling", "group": 2},
+    {"id": "Blasting", "group": 3},
+    {"id": "Loading", "group": 3}
+  ],
+  "links": [
+    {"source": "Shift Leader", "target": "Dispatcher"},
+    {"source": "Shift Leader", "target": "Drilling"},
+    {"source": "Shift Leader", "target": "Dispatcher"},
+    {"source": "Blasting", "target": "Dispatcher"},
+    {"source": "Drilling", "target": "Dispatcher"}
+  ]
+}
